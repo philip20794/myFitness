@@ -17,12 +17,10 @@
     <ion-row *ngFor="let day of currentWeek.days">
       <ion-col class="ion-text-center" size="3">
           <div>
-            <ion-label>{{day.date.toLocaleString('de-DE',
-                    { weekday: 'long'})}}</ion-label>
+
           </div>
           <div >
-            <ion-label>{{day.date.toLocaleString('de-DE',
-                    { hour: 'numeric', minute: 'numeric' })}} Uhr</ion-label>
+         
           </div>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
@@ -37,5 +35,11 @@
           <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"></ion-input>
       </ion-col>
     </ion-row>
+      <ion-row *ngFor="let day of currentWeek.days">
+          <ion-label>{{day.date}}</ion-label>
+          <ion-label>{{day.gewicht}}</ion-label>
+          <ion-label>{{day.fat}}</ion-label>
+          <ion-label>{{day.muskel}}</ion-label>
+      </ion-row>
   </ion-grid>
 </ion-content>

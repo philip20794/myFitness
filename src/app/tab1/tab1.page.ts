@@ -21,8 +21,8 @@ export class Tab1Page {
     this.genOldStuff();
   }
 
-  async ionViewDidEnter() {
-    await this.init();
+  ionViewDidEnter() {
+    this.init();
   }
 
   genOldStuff() {
@@ -57,6 +57,8 @@ export class Tab1Page {
   }
 
   genAverage() {
+    if (this.currentWeek.days === null) {return; }
+    if (this.currentWeek.days.length < 1) {return; }
     let gewicht = 0;
     let fat = 0;
     let muskel = 0;
@@ -74,10 +76,6 @@ export class Tab1Page {
     this.currentWeek.durchschnitt.muskel = (muskel / days);
   }
 
-  async clean() {
-    this.loaded = false;
-    await this.storage.clear();
-    this.init();
-  }
+
 
 }
