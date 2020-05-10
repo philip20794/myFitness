@@ -18,10 +18,16 @@ export class Tab1Page {
 
   constructor(public storage: Storage) {
     this.loaded = false;
+    this.genOldStuff();
   }
 
   async ionViewDidEnter() {
     await this.init();
+  }
+
+  genOldStuff() {
+    this.storage.set('2020week17', new Week([], 17, new Day(null, 66.16, 18, 43)));
+    this.storage.set('2020week18', new Week([], 18, new Day(null, 66.63, 17.7, 43.1)));
   }
 
   async init() {
