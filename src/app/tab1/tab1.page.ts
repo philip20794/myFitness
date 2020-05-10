@@ -22,6 +22,7 @@ export class Tab1Page {
   }
 
   ionViewDidEnter() {
+    this.loaded = false;
     this.init();
   }
 

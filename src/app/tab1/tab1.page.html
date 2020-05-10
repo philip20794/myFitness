@@ -5,8 +5,11 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
+<ion-content *ngIf="!loaded">
+    <ion-label>NOT loaded</ion-label>
+</ion-content>
 <ion-content *ngIf="loaded">
+    <ion-label>loaded!</ion-label>
   <ion-grid>
     <ion-row>
       <ion-col class="ion-text-center" size="3">Tag</ion-col>
@@ -17,10 +20,12 @@
     <ion-row *ngFor="let day of currentWeek.days">
       <ion-col class="ion-text-center" size="3">
           <div>
-
+            <ion-label>{{day.date.toLocaleString('de-DE',
+                    { weekday: 'long'})}}</ion-label>
           </div>
           <div >
-         
+            <ion-label>{{day.date.toLocaleString('de-DE',
+                    { hour: 'numeric', minute: 'numeric' })}} Uhr</ion-label>
           </div>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
