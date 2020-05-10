@@ -1,17 +1,43 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>
-      Tab 1
+      Diese Woche
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content color="dark" *ngIf="loaded">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center" size="3">Tag</ion-col>
+      <ion-col class="ion-text-center" size="3">Gewicht[Kg]</ion-col>
+      <ion-col class="ion-text-center" size="3">Fat[%]</ion-col>
+      <ion-col class="ion-text-center" size="3">Muskeln[%]</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let day of currentWeek.days">
+      <ion-col class="ion-text-center" size="3">
+          <div>
+            <ion-label>{{day.date.toLocaleString('de-DE',
+                    { weekday: 'long'})}}</ion-label>
+          </div>
+          <div >
+            <ion-label>{{day.date.toLocaleString('de-DE',
+                    { hour: 'numeric', minute: 'numeric' })}} Uhr</ion-label>
+          </div>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+          <ion-input #a [(ngModel)]="day.gewicht" (ionChange)="save()" (keyup)="focusNext($event, b)"
+                     [autofocus]="today.getDay() === day.date.getDay() && day.gewicht === 0" type="number"
+                     (focusin)="day.gewicht = ''"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+          <ion-input #b [(ngModel)]="day.fat" (ionChange)="save()" (keyup)="focusNext($event, c)"
+                     type="number" (focusin)="day.fat = ''"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+          <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"
+                     type="number" (focusin)="day.muskel = ''"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

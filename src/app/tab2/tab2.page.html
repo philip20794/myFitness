@@ -1,17 +1,33 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>
-      Tab 2
+      Übersicht
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+<ion-content color="dark" *ngIf="loaded">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center" size="3"></ion-col>
+      <ion-col class="ion-text-center" size="3">Gewicht[Kg]</ion-col>
+      <ion-col class="ion-text-center" size="3">Fat[%]</ion-col>
+      <ion-col class="ion-text-center" size="3">Muskeln[%]</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let week of weeks">
+      <ion-col class="ion-text-center" size="3">
+          <ion-label>Woche {{week.nr}}</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+        <ion-label>{{week.durchschnitt.gewicht}}</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+        <ion-label>{{week.durchschnitt.fat}}</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-center" size="3">
+        <ion-label>{{week.durchschnitt.muskel}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

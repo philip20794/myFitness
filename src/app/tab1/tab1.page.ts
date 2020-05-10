@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {Day} from '../modells/day';
+import {Storage} from '@ionic/storage';
+import {Week} from '../modells/week';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +10,65 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  // @ts-ignore
+  currentWeekNumber = require('current-week-number');
+  today = new Date();
+  loaded: boolean;
+  currentWeek: Week;
+
+  constructor(public storage: Storage) {
+    this.loaded = false;
+  }
+
+  async ionViewDidEnter() {
+    await this.init();
+  }
+
+  async init() {
+    await this.storage.get(this.today.getFullYear() + 'week' + this.currentWeekNumber()).then(value => {
+      if (value !== null) {
+        this.currentWeek = new Week(value.days, value.nr, value.durchschnitt);
+      } else {
+        this.currentWeek = new Week([], this.currentWeekNumber(), new Day(null, 0, 0, 0));
+      }
+    });
+    if (this.currentWeek.getDay(this.today) === null) {
+      this.currentWeek.days.push(new Day(this.today, 0, 0, 0));
+    }
+    this.loaded = true;
+  }
+
+  save() {
+    this.genAverage();
+    this.storage.set(this.today.getFullYear() + 'week' + this.currentWeekNumber(), this.currentWeek);
+  }
+
+  focusNext(event: any, nextElement: any) {
+    const enterClicked = event.key === 'Enter';
+    if (enterClicked) {
+      nextElement.setFocus();
+    }
+  }
+
+  genAverage() {
+    let gewicht = 0;
+    let fat = 0;
+    let muskel = 0;
+    for (const day of this.currentWeek.days) {
+      gewicht += Number(day.gewicht);
+      fat += Number(day.fat);
+      muskel += Number(day.muskel);
+    }
+    const days = this.currentWeek.days.length;
+    this.currentWeek.durchschnitt.gewicht = (gewicht / days);
+    this.currentWeek.durchschnitt.fat = (fat / days);
+    this.currentWeek.durchschnitt.muskel = (muskel / days);
+  }
+
+  async clean() {
+    this.loaded = false;
+    await this.storage.clear();
+    this.init();
+  }
 
 }
