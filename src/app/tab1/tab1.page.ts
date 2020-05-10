@@ -60,12 +60,15 @@ export class Tab1Page {
     let gewicht = 0;
     let fat = 0;
     let muskel = 0;
+    let days = 0;
     for (const day of this.currentWeek.days) {
       gewicht += Number(day.gewicht);
       fat += Number(day.fat);
       muskel += Number(day.muskel);
+      if (gewicht > 1) {
+        days += 1;
+      }
     }
-    const days = this.currentWeek.days.length;
     this.currentWeek.durchschnitt.gewicht = (gewicht / days);
     this.currentWeek.durchschnitt.fat = (fat / days);
     this.currentWeek.durchschnitt.muskel = (muskel / days);
