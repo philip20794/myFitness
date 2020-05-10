@@ -1,22 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Diese Wocheee
+      Diese Woche
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf="!loaded">
-    <ion-label>NOT loaded</ion-label>
-    dfghjk
-</ion-content>
+
 <ion-content *ngIf="loaded">
-    <ion-label>loaded!</ion-label>
   <ion-grid>
     <ion-row>
       <ion-col class="ion-text-center" size="3">Tag</ion-col>
       <ion-col class="ion-text-center" size="3">Gewicht[Kg]</ion-col>
       <ion-col class="ion-text-center" size="3">Fat[%]</ion-col>
-      <ion-col class="ion-text-center" size="3">Muskeln[%]</ion-col>
+      <ion-col class="ion-text-center" size="3">Muskel[%]</ion-col>
     </ion-row>
     <ion-row *ngFor="let day of currentWeek.days">
       <ion-col class="ion-text-center" size="3">
@@ -31,21 +27,17 @@
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #a [(ngModel)]="day.gewicht" (ionChange)="save()" (keyup)="focusNext($event, b)"
-                     ></ion-input>
+                     [autofocus]="today.getDay() === day.date.getDay() && day.gewicht === 0" type="number"
+                     (focusin)="day.gewicht = ''"></ion-input>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #b [(ngModel)]="day.fat" (ionChange)="save()" (keyup)="focusNext($event, c)"
-                     type="number" ></ion-input>
+                     type="number" (focusin)="day.fat = ''"></ion-input>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
-          <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"></ion-input>
+          <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"
+                     type="number" (focusin)="day.muskel = ''"></ion-input>
       </ion-col>
     </ion-row>
-      <ion-row *ngFor="let day of currentWeek.days">
-          <ion-label>{{day.date}}</ion-label>
-          <ion-label>{{day.gewicht}}</ion-label>
-          <ion-label>{{day.fat}}</ion-label>
-          <ion-label>{{day.muskel}}</ion-label>
-      </ion-row>
   </ion-grid>
 </ion-content>
