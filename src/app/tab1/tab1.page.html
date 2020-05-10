@@ -27,16 +27,14 @@
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #a [(ngModel)]="day.gewicht" (ionChange)="save()" (keyup)="focusNext($event, b)"
-                     [autofocus]="today.getDay() === day.date.getDay() && day.gewicht === 0" type="number"
-                     (focusin)="day.gewicht = ''"></ion-input>
+                     ></ion-input>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #b [(ngModel)]="day.fat" (ionChange)="save()" (keyup)="focusNext($event, c)"
-                     type="number" (focusin)="day.fat = ''"></ion-input>
+                     type="number" ></ion-input>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
-          <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"
-                     type="number" (focusin)="day.muskel = ''"></ion-input>
+          <ion-input #c [(ngModel)]="day.muskel" (ionChange)="save()"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>
