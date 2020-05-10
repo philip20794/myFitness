@@ -19,10 +19,10 @@ export class Tab1Page {
   constructor(public storage: Storage) {
     console.log('cnstruckt');
     this.loaded = false;
-    this.genOldStuff();
+    //this.genOldStuff();
     console.log('-----------------DONE-------------');
   }
-
+/*
   ionViewDidEnter() {
     console.log('enter view');
     this.loaded = false;
@@ -91,6 +91,6 @@ export class Tab1Page {
     console.log('-----------------DONE-------------');
   }
 
-
+*/
 
 }
