@@ -9,26 +9,23 @@
 <ion-content *ngIf="loaded">
   <ion-grid>
     <ion-row>
-      <ion-col class="ion-text-center" size="3">Tag</ion-col>
-      <ion-col class="ion-text-center" size="3">Gewicht[Kg]</ion-col>
-      <ion-col class="ion-text-center" size="3">Fat[%]</ion-col>
-      <ion-col class="ion-text-center" size="3">Muskel[%]</ion-col>
+      <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Tag</ion-label></ion-col>
+      <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Gewicht[Kg]</ion-label></ion-col>
+      <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Fat[%]</ion-label></ion-col>
+      <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Muskel[%]</ion-label></ion-col>
     </ion-row>
     <ion-row *ngFor="let day of currentWeek.days">
       <ion-col class="ion-text-center" size="3">
           <div>
-            <ion-label>{{day.date.toLocaleString('de-DE',
-                    { weekday: 'long'})}}</ion-label>
+            <ion-label>{{day.date.wochentag}}</ion-label>
           </div>
           <div >
-            <ion-label>{{day.date.toLocaleString('de-DE',
-                    { hour: 'numeric', minute: 'numeric' })}} Uhr</ion-label>
+            <ion-label>{{day.date.uhrzeit}} Uhr</ion-label>
           </div>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #a [(ngModel)]="day.gewicht" (ionChange)="save()" (keyup)="focusNext($event, b)"
-                     [autofocus]="today.getDay() === day.date.getDay() && day.gewicht === 0" type="number"
-                     (focusin)="day.gewicht = ''"></ion-input>
+                     type="number" (focusin)="day.gewicht = ''"></ion-input>
       </ion-col>
       <ion-col class="ion-text-center" size="3">
           <ion-input #b [(ngModel)]="day.fat" (ionChange)="save()" (keyup)="focusNext($event, c)"
@@ -40,4 +37,16 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="!loaded">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Tag</ion-label></ion-col>
+            <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Gewicht[Kg]</ion-label></ion-col>
+            <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Fat[%]</ion-label></ion-col>
+            <ion-col class="ion-text-center" size="3"><ion-label class="smaller">Muskel[%]</ion-label></ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

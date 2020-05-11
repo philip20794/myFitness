@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Day} from '../modells/day';
 import {Storage} from '@ionic/storage';
 import {Week} from '../modells/week';
+import {Mydate} from '../modells/mydate';
 
 @Component({
   selector: 'app-tab1',
@@ -13,64 +14,59 @@ export class Tab1Page {
   // @ts-ignore
   currentWeekNumber = require('current-week-number');
   today = new Date();
+  wochentag = this.today.toLocaleString('de-DE', { weekday: 'long'});
+  uhrzeit = this.today.toLocaleString('de-DE', { hour: 'numeric', minute: 'numeric' });
   loaded: boolean;
   currentWeek: Week;
 
   constructor(public storage: Storage) {
-    console.log('cnstruckt');
     this.loaded = false;
     this.genOldStuff();
-    console.log('-----------------DONE-------------');
   }
 
   ionViewDidEnter() {
-    console.log('enter view');
     this.loaded = false;
     this.init();
-    console.log('-----------------DONE-------------');
   }
 
   genOldStuff() {
-    console.log('gend old stuff');
     this.storage.set('2020week17', new Week([], 17, new Day(null, 66.16, 18, 43)));
     this.storage.set('2020week18', new Week([], 18, new Day(null, 66.63, 17.7, 43.1)));
-    console.log('-----------------DONE-------------');
+    this.storage.set('2020week19', new Week([], 19, new Day(null, 67.01, 18, 43)));
   }
 
   async init() {
-    console.log('init');
     await this.storage.get(this.today.getFullYear() + 'week' + this.currentWeekNumber()).then(value => {
       if (value !== null) {
-        this.currentWeek = new Week(value.days, value.nr, value.durchschnitt);
+        this.currentWeek = value;
       } else {
         this.currentWeek = new Week([], this.currentWeekNumber(), new Day(null, 0, 0, 0));
       }
     });
-    if (this.currentWeek.getDay(this.today) === null) {
-      this.currentWeek.days.push(new Day(this.today, 0, 0, 0));
+    if (!this.todayExists()) {
+      this.currentWeek.days.push(new Day(new Mydate(this.wochentag, this.uhrzeit), 0, 0, 0));
+      this.save();
     }
     this.loaded = true;
-    console.log('-----------------DONE-------------');
   }
 
   save() {
-    console.log('save');
     this.genAverage();
     this.storage.set(this.today.getFullYear() + 'week' + this.currentWeekNumber(), this.currentWeek);
-    console.log('-----------------DONE-------------');
+  }
+
+  clean() {
+    this.storage.clear();
   }
 
   focusNext(event: any, nextElement: any) {
-    console.log('fokus next');
     const enterClicked = event.key === 'Enter';
     if (enterClicked) {
       nextElement.setFocus();
     }
-    console.log('-----------------DONE-------------');
   }
 
   genAverage() {
-    console.log('genavareg');
     if (this.currentWeek.days === null) {return; }
     if (this.currentWeek.days.length < 1) {return; }
     let gewicht = 0;
@@ -89,9 +85,16 @@ export class Tab1Page {
     this.currentWeek.durchschnitt.gewicht = (gewicht / days);
     this.currentWeek.durchschnitt.fat = (fat / days);
     this.currentWeek.durchschnitt.muskel = (muskel / days);
-    console.log('-----------------DONE-------------');
   }
 
 
+  todayExists(): boolean {
+    for (const day of this.currentWeek.days) {
+      if (this.wochentag === day.date.wochentag) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

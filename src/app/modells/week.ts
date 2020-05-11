@@ -12,13 +12,6 @@ export class Week {
         this.durchschnitt = durchschnitt;
     }
 
-    getDay(date: Date): Day {
-        for (const day of this.days) {
-            if (day.date.getDay() === date.getDay()) {
-                return day;
-            }
-        }
-        return null;
-    }
+
 
 }
