@@ -82,9 +82,9 @@ export class Tab1Page {
       }
     }
     if (days <= 0) {return; }
-    this.currentWeek.durchschnitt.gewicht = (gewicht / days);
-    this.currentWeek.durchschnitt.fat = (fat / days);
-    this.currentWeek.durchschnitt.muskel = (muskel / days);
+    this.currentWeek.durchschnitt.gewicht = Math.round((gewicht / days) * 100) / 100;
+    this.currentWeek.durchschnitt.fat = Math.round((fat / days) * 100) / 100;
+    this.currentWeek.durchschnitt.muskel = Math.round((muskel / days) * 100) / 100;
   }
 
 
