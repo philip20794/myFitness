@@ -36,11 +36,10 @@ export class Tab1Page {
   }
 
   async init() {
+    this.currentWeek = new Week([], this.currentWeekNumber(), new Day(null, 0, 0, 0));
     await this.storage.get(this.today.getFullYear() + 'week' + this.currentWeekNumber()).then(value => {
       if (value !== null) {
         this.currentWeek = value;
-      } else {
-        this.currentWeek = new Week([], this.currentWeekNumber(), new Day(null, 0, 0, 0));
       }
     });
     if (!this.todayExists()) {
@@ -50,8 +49,8 @@ export class Tab1Page {
     this.loaded = true;
   }
 
-  save() {
-    this.genAverage();
+  async save() {
+    await this.genAverage();
     this.storage.set(this.today.getFullYear() + 'week' + this.currentWeekNumber(), this.currentWeek);
   }
 
@@ -67,18 +66,20 @@ export class Tab1Page {
   }
 
   genAverage() {
-    if (this.currentWeek.days === null) {return; }
     if (this.currentWeek.days.length < 1) {return; }
     let gewicht = 0;
     let fat = 0;
     let muskel = 0;
     let days = 0;
     for (const day of this.currentWeek.days) {
-      gewicht += Number(day.gewicht);
-      fat += Number(day.fat);
-      muskel += Number(day.muskel);
-      if (gewicht > 1) {
-        days += 1;
+      if (day.gewicht.toString().length > 0 && day.fat.toString().length > 0
+          && day.muskel.toString().length > 0 ) {
+        gewicht += Number(day.gewicht);
+        fat += Number(day.fat);
+        muskel += Number(day.muskel);
+        if (gewicht > 1) {
+          days += 1;
+        }
       }
     }
     if (days <= 0) {return; }
